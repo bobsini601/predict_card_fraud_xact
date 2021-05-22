@@ -16,3 +16,9 @@ def numerial_gradient(f,x):
         grad[i] = (f(x[i]+h) - f(x[i]-h)) / 2*h
 
     return grad
+
+# X_train = get_CSV('X_train.csv')
+# X_test = get_CSV('X_test.csv')
+# y_train = get_CSV('y_train.cxv')
+# y_test = get_CSV('y_test.csv')
+# validation = get_CSV('validation.csv')
