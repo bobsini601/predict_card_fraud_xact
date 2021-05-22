@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def elu(x,alpha): # ELU 함수(activate 함수). alpha는 0.5가 적당하다고 함
+def act_func(x,alpha): # ELU 함수(activate 함수). alpha는 0.5가 적당하다고 함
     return (x>0)*x + (x<=0)*(alpha*(np.exp(x)-1))
 
 def sigmod(x): # 시그모이드 함수(그냥 만들어봄 얘도 activate 함수)
@@ -44,7 +44,7 @@ print(a.shape)
 
 def h(theta, X): # hypothesis 함수 -> 세타를 전치(t)하고, x를 곱한 다음 활성화함수에 넣기
     t_theta = np.transpose(theta) #전치
-    return elu(np.dot(t_theta, X))
+    return act_func(np.dot(t_theta, X))
 
 def cost_fn(m, X, Y): # cost 함수 (regularization는 나중에 넣을 것)
     sum = 0
