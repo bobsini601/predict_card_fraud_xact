@@ -20,7 +20,7 @@ class PredictFraud :
         return data2
 
 
-    def numerial_gradient(f, x):
+    def once_numerical_gradient(self, f, x):
         h = 1e-4
         grad = np.zeros[x.size]
 
@@ -28,6 +28,17 @@ class PredictFraud :
             grad[i] = (f(x[i] + h) - f(x[i] - h)) / 2 * h
 
         return grad
+
+    # def numerical_gradient(self, x, t):
+    #     loss_W = lambda W: self.loss(x, t)
+    # 
+    #     grads = {}  # 각 매개변수의 기울기
+    #     grads['W1'] = self.numerical_gradient(loss_W, self.params['W1'])
+    #     grads['b1'] = self.numerical_gradient(loss_W, self.params['b1'])
+    #     grads['W2'] = self.numerical_gradient(loss_W, self.params['W2'])
+    #     grads['b2'] = self.numerical_gradient(loss_W, self.params['b2'])
+    # 
+    #     return grads
 
 
     def partial_deriv(m, X, Y):
