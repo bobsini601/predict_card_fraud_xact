@@ -10,6 +10,7 @@ class PredictFraud :
         y_train = self.get_CSV('y_train.csv')
         y_test = self.get_CSV('y_test.csv')
         validation = self.get_CSV('validation.csv')
+        theta1 = np.random.random((15, 31))
 
     #load the csv file
     def get_CSV(load):
@@ -35,7 +36,7 @@ class PredictFraud :
             sum += (h[X[i]] - Y[i]) * X[i]
         return sum / m
 
-    def act_func(x, alpha):  # ELU 함수(activate 함수). alpha는 0.5가 적당하다고 함
+    def act_func(x, alpha=0.5):  # ELU 함수(activate 함수). alpha는 0.5가 적당하다고 함
         return (x > 0) * x + (x <= 0) * (alpha * (np.exp(x) - 1))
 
     # m은 input data 개수
@@ -45,7 +46,7 @@ class PredictFraud :
 
     def h(theta, X):  # hypothesis 함수 -> 세타를 전치(t)하고, x를 곱한 다음 활성화함수에 넣기
         t_theta = np.transpose(theta)  # 전치
-        return self.act_func(np.dot(t_theta, X))
+        return self.act_func(np.dot(t_theta, X),0.5)
 
     def cost_fn(m, X, Y):  # cost 함수 (regularization는 나중에 넣을 것)
         sum = 0
@@ -60,8 +61,8 @@ class PredictFraud :
      시작을 0.01로 시작해서 overshooting이 일어나면 Learning rate의 값을 줄이고 
      학습 속도가 매우 느리다면 Learning rate 값을 올리는 방향으로 학습을 진행하면 될 것이다.
     '''
-    
-    def gradient_descent(c_func, init_x, lr=0.01, step_size=100):
+
+    def gradient_descent(init_x, lr=0.01, step_size=100):
         # 적절한 크기의 반복 횟수 (step size) 선정 "loop를 몇 번 할 건지."
         # local minimum 으로 빠지지 않게 주의
         # cost함수의 미분 계수를 구한 다음, learning rate를 곱해줘야함.
@@ -79,7 +80,7 @@ class PredictFraud :
                 break
             else:
                 # act_x : 계산된 output
-                act_x = act_func(init_x)
+                act_x = self.act_func(init_x,0.5)
                 # act_x=h(theta,init_x) 로 해야하나.,?
                 # y : 실제 output
                 grad_cost = init_x * (act_x - y)
