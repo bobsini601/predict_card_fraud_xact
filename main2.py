@@ -42,21 +42,30 @@ x_train_normal = preprocessing.normalize(X_train,norm='l1') # 정규화
 
 # plot_Data(x_train_normal)
 
+
+#show input feature
 print(X_train[0].shape)
 print(X_train.shape)
 
+
+#init the theta1, theta2
 theta1 = np.random.random((15,30))
 # print(theta1.shape)
 
 theta2 = np.random.random((1,16))
 # print(theta2.shape)
 
+
+#make first output (hiddenlayer)
 a2 = []
 for i in x_train_normal:
     a2.append(h(theta1,i))
 
+# a2's shape is (1,15)
 x = a2
+# ones array is bias (all 1)
 ones = np.array([[1]] * len(x))
+# add bias=1 to a2
 new_a2 = np.append(ones, x, axis=1)
 # print(new_a2)
 
