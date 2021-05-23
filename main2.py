@@ -7,6 +7,11 @@ from sklearn import preprocessing  #feature normalize
 def elu(x,alpha): # ELU 함수(activate 함수). alpha는 0.5가 적당하다고 함
     return (x>0)*x + (x<=0)*(alpha*(np.exp(x)-1))
 
+def ELU_deriv(x):
+    if (x>0): return 1
+    else return elu(x)+1
+    #return (x>0)*1+(x<=0)*(elu(x)+1)    hoxy 안되면 이걸로 해봐
+    
 def h(theta, X): # hypothesis 함수 -> 세타를 전치(t)하고, x를 곱한 다음 활성화함수에 넣기
     return elu(np.dot(theta, X),0.5)
 
