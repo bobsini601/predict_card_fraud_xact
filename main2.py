@@ -37,6 +37,9 @@ for i in X_train: # time 1로 바꾸기
     i[0]=1
 
 x_train_normal = preprocessing.normalize(X_train,norm='l1') # 정규화
+bias = np.ones(x_train_normal.shape[0]).reshape(x_train_normal.shape[0],1)
+x_train = np.concatenate((bias,x_train_normal),axis=1)
+print(x_train)
 
 # plot_Data(x_train_normal)
 
