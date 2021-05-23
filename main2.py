@@ -33,19 +33,21 @@ X_train = get_CSV('X_train.csv')
 # y_test = get_CSV('y_test.csv')
 # validation = get_CSV('validation.csv')
 
-x_train = X_train[:,2:]
-x_train_normal = preprocessing.normalize(x_train,norm='l1')
+for i in X_train: # time 1로 바꾸기
+    i[0]=1
+
+x_train_normal = preprocessing.normalize(X_train,norm='l1') # 정규화
 
 # plot_Data(x_train_normal)
 
 print(X_train[0].shape)
 print(X_train.shape)
 
-theta1 = np.random.random((15,29))
-print(theta1.shape)
+theta1 = np.random.random((15,31))
+# print(theta1.shape)
 
 theta2 = np.random.random((1,16))
-print(theta2.shape)
+# print(theta2.shape)
 
 a2 = []
 for i in x_train_normal:
@@ -54,7 +56,7 @@ for i in x_train_normal:
 x = a2
 ones = np.array([[1]] * len(x))
 new_a2 = np.append(ones, x, axis=1)
-print(new_a2)
+# print(new_a2)
 
 a3=[]
 for i in new_a2:
