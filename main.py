@@ -20,13 +20,15 @@ class PredictFraud :
         data2 = data1.to_numpy()
         return data2
 
-
-    def once_numerical_gradient(self, f, x):
+    # 여기서 f는 cost_fn 즉 손실함수이다.
+    # gradient는 theta(w)에 대한 손실 함수의 기울기이다.
+    # [15,29] / [15,1] 2개의 행렬 구해야함
+    def once_numerical_gradient(self, f, theta):
         h = 1e-4
-        grad = np.zeros[x.size]
+        grad = np.zeros[theta.size]
 
-        for i in range(x.size):
-            grad[i] = (f(x[i] + h) - f(x[i] - h)) / 2 * h
+        for i in range(theta.size):
+            grad[i] = (f(theta[i] + h) - f(theta[i] - h)) / 2 * h
 
         return grad
 
