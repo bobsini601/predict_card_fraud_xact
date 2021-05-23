@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+from sklearn import preprocessing  #feature normalize
+
 
 def elu(x,alpha): # ELU 함수(activate 함수). alpha는 0.5가 적당하다고 함
     return (x>0)*x + (x<=0)*(alpha*(np.exp(x)-1))
@@ -20,6 +22,8 @@ X_train = get_CSV('X_train.csv')
 # validation = get_CSV('validation.csv')
 
 x_train = X_train[:,2:]
+x_train_normal = preprocessing.normalize(x_train,norm='l1')
+
 print(X_train[0].shape)
 print(X_train.shape)
 
@@ -30,7 +34,7 @@ theta2 = np.random.random((1,16))
 print(theta2.shape)
 
 a2 = []
-for i in x_train:
+for i in x_train_normal:
     a2.append(h(theta1,i))
 
 x = a2
