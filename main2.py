@@ -27,15 +27,17 @@ def plot_Data(data):
     plt.subplots_adjust(hspace=1)  # 간격 조정
     plt.show()
 
-X_train = get_CSV('X_train.csv')
+x_train = get_CSV('X_train.csv')
 # X_test = get_CSV('X_test.csv')
 # y_train = get_CSV('y_train.csv')
 # y_test = get_CSV('y_test.csv')
 # validation = get_CSV('validation.csv')
 
+X_train = x_train[:,1:]
 for i in X_train: # time 1로 바꾸기
     i[0]=1
 
+print(X_train)
 x_train_normal = preprocessing.normalize(X_train,norm='l1') # 정규화
 
 # plot_Data(x_train_normal)
@@ -43,7 +45,7 @@ x_train_normal = preprocessing.normalize(X_train,norm='l1') # 정규화
 print(X_train[0].shape)
 print(X_train.shape)
 
-theta1 = np.random.random((15,31))
+theta1 = np.random.random((15,30))
 # print(theta1.shape)
 
 theta2 = np.random.random((1,16))
