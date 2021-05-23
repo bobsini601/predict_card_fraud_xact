@@ -24,6 +24,17 @@ X_train = get_CSV('X_train.csv')
 x_train = X_train[:,2:]
 x_train_normal = preprocessing.normalize(x_train,norm='l1')
 
+# normalize 이후 plot
+# for i in range(0,29):
+#     plt.subplot(5,6,i+1)  #동시표기
+#     plt.hist(x_train_normal[:,i],bins=10)
+#     plt.title("V"+str(i+1))
+#     if (i==28):
+#         plt.hist(x_train_normal[:,i],bins=10)  #bins=10 <=> 막대개수=10
+#         plt.title("amount")
+# plt.subplots_adjust(hspace=1)  #간격 조정
+# plt.show()
+
 print(X_train[0].shape)
 print(X_train.shape)
 
