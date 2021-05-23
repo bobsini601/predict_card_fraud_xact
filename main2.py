@@ -26,6 +26,14 @@ def plot_Data(data):
             plt.title("amount")
     plt.subplots_adjust(hspace=1)  # 간격 조정
     plt.show()
+    
+    
+def cost_fn(self, m, X, Y):  # cost 함수 'MSE'   (regularization는 나중에 넣을 것)  
+    sum = 0
+    for i in range(1, m + 1):
+        sum += Y[i] * np.log(self.h(X[i])) + (1 - Y[i]) * np.log(self.h(1 - X[i]))
+    return (-1 / m) * sum
+
 
 x_train = get_CSV('X_train.csv')
 # X_test = get_CSV('X_test.csv')
