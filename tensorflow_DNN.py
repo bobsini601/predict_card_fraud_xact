@@ -31,11 +31,13 @@ sm = SMOTE(sampling_strategy=1)
 X, Y = sm.fit_resample(x_train_normal,y_train[:,1])
 x_t, y_t = sm.fit_resample(x_test_normal,y_test[:,1])
 
+''' layer 설정 '''
 input = keras.Input(shape=(29,))
 x=Dense(15,activation='relu',name='hidden_layer')(input)
 output=Dense(1,activation='sigmoid',name='output_layer')(x)
-
 model = keras.Model(input, output)
+
+''' layer정보, output shape, param개수 에 대한 정보를 출력 '''
 model.summary()
 
 model.compile(loss='binary_crossentropy',optimizer=keras.optimizers.Adam(lr=1e-3),metrics=['accuracy']) #binary_crossentropy
