@@ -1,11 +1,14 @@
 import sys, os
 import pandas as pd
+import matplotlib.pyplot as plt
 from sklearn.preprocessing import normalize
 sys.path.append(os.pardir)
 from imblearn.over_sampling import SMOTE
 from keras.models import Sequential
 from keras.layers import Dense, Activation
 from sklearn import preprocessing
+import numpy as np
+import tensorflow as tf
 import keras
 
 def get_CSV(load):
