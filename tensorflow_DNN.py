@@ -1,14 +1,9 @@
 import sys, os
 import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.preprocessing import normalize
 sys.path.append(os.pardir)
 from imblearn.over_sampling import SMOTE
-from keras.models import Sequential
 from keras.layers import Dense, Activation
 from sklearn import preprocessing
-import numpy as np
-import tensorflow as tf
 import keras
 
 def get_CSV(load):
@@ -46,5 +41,5 @@ model.summary()
 model.compile(loss='binary_crossentropy',optimizer=keras.optimizers.Adam(lr=1e-3),metrics=['accuracy']) #binary_crossentropy
 model.fit(x_train_normal,y_train[:,1],epochs=10,batch_size=x_train_normal.shape[0], validation_data=(x_val_normal,y_val))
 # model.summary()
-score = model.evaluate(x_test,y_test[:,1],batch_size=1)
+score = model.evaluate(x_test_normal,y_test[:,1],batch_size=1)
 print(score)  #loss & accuracy 출력
