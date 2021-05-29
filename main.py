@@ -199,6 +199,29 @@ for j in range(3):
 
 plotting('epoch', 'f1_score')
 
+####################################################################################
+# 6.7 FIND OPTIMIZER FUNCTION
+####################################################################################
+opt_dict = {"adam":1, "SGD":2, "RMSprop":3}
+def diff_optimizer(opt):  #adam, SGD, RMSprop
+    model = Sequential([
+        InputLayer(input_shape=(29,)),
+        Dense(15, activation='elu', name='hidden_layer'),
+        Dense(1, activation='sigmoid', name='output_layer')]
+    )
+    model.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
+    training = model.fit(X, Y, epochs=100, batch_size=1000, validation_data=(x_val_normal, y_val))
+    model.summary()
+    score = model.evaluate(x_test_normal, y_test[:, 1], batch_size=x_test_normal.shape[0])
+    print(score)  # loss & accuracy 출력
+
+    return training
+
+for i in opt_dict:
+    a = diff_optimizer(i)
+    plotting_ready(a.epoch, a.history['loss'], i+", loss")
+
+plotting('epoch', 'loss')
 
 ####################################################################################
 # 7.1 final result F1_score
