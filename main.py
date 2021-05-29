@@ -97,28 +97,6 @@ plot_scatter_data(x_train_normal,y_train[:,1],'BeforeSMOTE')
 plot_scatter_data(X,Y,'AfterSMOTE')
 
 
-####################################################################################
-''' Set the layers '''
-model = Sequential([
-            InputLayer(input_shape=(29,)),
-            Dense(15, activation='elu',name='hidden_layer_1'),
-            Dense(1,activation='sigmoid',name='output_layer')
-            ])
-
-''' layer정보, output shape, parameter 개수에 대한 정보를 출력 '''
-model.summary()
-
-''' back propagation ( loss fn, optimizer(=gradient descent) ) '''
-model.compile(loss='binary_crossentropy',optimizer='RMSprop',metrics=['accuracy'])
-
-
-''' 학습시키는 과정 epochs = 반복횟수, batch_size = 학습할 데이터의 크기 '''
-hist=model.fit(x_train_normal,y_train[:,1],epochs=100,batch_size=1000,validation_data=(x_val_normal,y_val))    #SMOTE 적용 안했을 때
-plotting_ready(hist.epoch, hist.history['accuracy'], 'NOSMOTE,accuracy', '-','black')
-plotting_ready(hist.epoch, hist.history['loss'], 'NOSMOTE,loss', '--', 'black')
-
-''' evaluate the loss, accuracy '''
-print(model.evaluate(x_test_normal,y_test[:,1],batch_size=x_test_normal.shape[0]))
 
 ####################################################################################
 # 6.3 COMOPARE RERU, ELU
