@@ -39,7 +39,7 @@ def plot_scatter_data(X,Y,name):
     plt.title(name)
     plt.show()
 
-def plotting_ready(x, y, label, linestyle, color):
+def plotting_ready(x, y, label, linestyle='-', color='r'):
     plt.plot(x, y, label=label, linestyle=linestyle, color=color)
 
 def plotting(x_label, y_label):
