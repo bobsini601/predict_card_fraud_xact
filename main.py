@@ -11,11 +11,16 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 import keras.metrics
 
+''' csv 파일을 load 해서 numpy 배열로 바꿔주는 함수 '''
 def get_CSV(load):
     data1 = pd.read_csv(load)
     data2 = data1.to_numpy()
     return data2
 
+''' 
+class 별로 data size를 plot 해주는 함수이다. (막대그래프 형태_2개 class) 
+data size는 class 별로 values 배열에 저장되어있다.
+'''
 def plot_data_size(values,name):
     x=np.arange(2)
     plt.bar(x,values)
@@ -23,6 +28,9 @@ def plot_data_size(values,name):
     plt.title(name)
     plt.show()
 
+'''
+30개의 input feature를 2개의 feature로 scaling한 뒤에, PCA함수를 통해 2차원으로 줄인다.
+'''
 def plot_scatter_data(X,Y,name):
     scaled_data=StandardScaler().fit_transform(X)
     pc = PCA(n_components=2).fit_transform(scaled_data)
@@ -139,8 +147,10 @@ for b_size in b_list:
     model.compile(loss='binary_crossentropy', optimizer='RMSprop')  # binary_crossentropy
     batch_res = model.fit(X,Y,epochs=100,batch_size=b_size,validation_data=(x_val_normal,y_val))
 
-    plotting_ready(batch_res.epoch, batch_res.history['accuracy'],b_size, '{0},accuracy'.format(b_size), '-', 'b')
-    plotting_ready(batch_res.epoch, batch_res.history['loss'], b_size,'{0},loss'.format(b_size), '--', 'b')
+    acc_label='batch{0},accuracy'.format(b_size)
+    loss_label='batch{0},loss'.format(b_size)
+    plotting_ready(batch_res.epoch, batch_res.history['accuracy'],acc_label, '-', 'b')
+    plotting_ready(batch_res.epoch, batch_res.history['loss'],loss_label, '--', 'b')
 
     model.evaluate(x_test_normal, y_test[:, 1], batch_size=x_test_normal.shape[0])
 
