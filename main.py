@@ -241,7 +241,6 @@ aa = model.fit(X, Y, epochs=100, batch_size=2000, validation_data=(x_val_normal,
 score = model.evaluate(x_test_normal, y_test[:, 1],batch_size=x_test_normal.shape[0])
 list_Train = []
 list_val = []
-test = []
 for i in range(100):
     list_Train.append(2 * (aa.history['precision'][i] * aa.history['recall'][i]) / (
                 aa.history['precision'][i] + aa.history['recall'][i]))
@@ -249,15 +248,14 @@ for i in range(100):
             aa.history['val_precision'][i] + aa.history['val_recall'][i]))
 
 plt.subplot(221)
-plt.plot(aa.epoch, aa.history['precision'], label='train_precision')
-plt.plot(aa.epoch, aa.history['val_precision'], linestyle='--', label='val_precision')
+plotting_ready(aa.epoch, aa.history['precision'], 'train_precision', '-', 'r')
+plotting_ready(aa.epoch, aa.history['val_precision'], 'val_precision', '--', 'r')
 plotting('epoch', 'precision')
 plt.subplot(222)
-plt.plot(aa.epoch, aa.history['recall'], label='train_recall')
-plt.plot(aa.epoch, aa.history['val_recall'], linestyle='--',label='val_recall')
+plotting_ready(aa.epoch, aa.history['recall'], 'train_recall', '-', 'b')
+plotting_ready(aa.epoch, aa.history['val_recall'], 'val_recall', '--', 'b')
 plotting('epoch','recall')
 plt.subplot(223)
-plt.plot(aa.epoch, list_Train, label='train f1 score')
-plt.plot(aa.epoch, list_val, linestyle='--',label='val f1 score')
+plotting_ready(aa.epoch, list_Train, 'train f1 score', '-', 'b')
+plotting_ready(aa.epoch, list_val, 'val f1 score', '--', 'b')
 plotting('epoch','f1 score')
-plt.show()
