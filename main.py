@@ -39,7 +39,7 @@ def plot_scatter_data(X,Y,name):
     plt.title(name)
     plt.show()
 
-def plotting_ready(x, y, label, linestyle, color):
+def plotting_ready(x, y, label, linestyle='-', color='r'):
     plt.plot(x, y, label=label, linestyle=linestyle, color=color)
 
 def plotting(x_label, y_label):
@@ -209,6 +209,33 @@ for j in range(3):
 
 plotting('epoch', 'f1_score')
 
+####################################################################################
+# 6.6 FIND OPTIMAL LEARNING RATE
+####################################################################################
+'''learing rate 비교'''
+def diff_lr(learing_rate):  # 0.000001 ~ 1.0
+    model = Sequential([
+        InputLayer(input_shape=(29,)),
+        Dense(15, activation='elu', name='hidden_layer'),
+        Dense(1, activation='sigmoid', name='output_layer')]
+    )
+    
+    model.compile(loss='binary_crossentropy', optimizer=keras.optimizers.RMSprop(lr=learing_rate), metrics=['accuracy'])
+    training = model.fit(X, Y, epochs=100, batch_size=1000, validation_data=(x_val_normal, y_val))
+    model.summary()
+    score = model.evaluate(x_test_normal, y_test[:, 1], batch_size=x_test_normal.shape[0])
+    print(score)  # loss & accuracy 출력
+
+    return training
+
+num=0.00001
+for i in range(1,7):
+    a = diff_lr(num)
+    plotting_ready(a.epoch, a.history['loss'], num)
+    num*=10
+    
+plotting('epoch', 'loss')
+    
 ####################################################################################
 # 6.7 FIND OPTIMIZER FUNCTION
 ####################################################################################
