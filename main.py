@@ -141,27 +141,27 @@ plotting('final layer','acc&loss')
 ####################################################################################
 # 6.4 FIND OPTIMAL EPOCHS, BATCH_SIZE
 ####################################################################################
-b_list=[100,1000,2000,X.shape[0]]
-
-for b_size in b_list:
-    model = Sequential([
-        InputLayer(input_shape=(29,)),
-        Dense(15, activation='elu', name='hidden_layer'),
-        Dense(1, activation='sigmoid', name='output_layer')]
-    )
-
-    model.compile(loss='binary_crossentropy', optimizer='RMSprop')  # binary_crossentropy
-    batch_res = model.fit(X,Y,epochs=100,batch_size=b_size,validation_data=(x_val_normal,y_val))
-
-    acc_label='batch{0},accuracy'.format(b_size)
-    loss_label='batch{0},loss'.format(b_size)
-    plotting_ready(batch_res.epoch, batch_res.history['accuracy'],acc_label, '-', 'b')
-    plotting_ready(batch_res.epoch, batch_res.history['loss'],loss_label, '--', 'b')
-
-    model.evaluate(x_test_normal, y_test[:, 1], batch_size=x_test_normal.shape[0])
-
-
-plotting('final layer', 'acc&loss')
+# b_list=[100,1000,2000,X.shape[0]]
+#
+# for b_size in b_list:
+#     model = Sequential([
+#         InputLayer(input_shape=(29,)),
+#         Dense(15, activation='elu', name='hidden_layer'),
+#         Dense(1, activation='sigmoid', name='output_layer')]
+#     )
+#
+#     model.compile(loss='binary_crossentropy', optimizer='RMSprop')  # binary_crossentropy
+#     batch_res = model.fit(X,Y,epochs=100,batch_size=b_size,validation_data=(x_val_normal,y_val))
+#
+#     acc_label='batch{0},accuracy'.format(b_size)
+#     loss_label='batch{0},loss'.format(b_size)
+#     plotting_ready(batch_res.epoch, batch_res.history['accuracy'],acc_label, '-', 'b')
+#     plotting_ready(batch_res.epoch, batch_res.history['loss'],loss_label, '--', 'b')
+#
+#     model.evaluate(x_test_normal, y_test[:, 1], batch_size=x_test_normal.shape[0])
+#
+#
+# plotting('final layer', 'acc&loss')
 
 ####################################################################################
 # 6.5 Accuracy plotting according to SMOTE ratio
@@ -175,7 +175,6 @@ for i in range(2):
     dic_y[i+1] = n2
 
 x_list.insert(0,0)
-print(dic_x[0], dic_y[0])
 
 color = ['r','g','b']
 test_f1= []
@@ -285,14 +284,14 @@ for i in range(100):
             aa.history['val_precision'][i] + aa.history['val_recall'][i]))
 
 plt.subplot(221)
-plotting_ready(aa.epoch, aa.history['precision'], 'train_precision', '-', 'r')
-plotting_ready(aa.epoch, aa.history['val_precision'], 'val_precision', '--', 'r')
+plt.plot(aa.epoch, aa.history['precision'], label='train_precision', color='r')
+plt.plot(aa.epoch, aa.history['val_precision'], label='val_precision', linestyle='--', color='r')
 plotting('epoch', 'precision')
 plt.subplot(222)
-plotting_ready(aa.epoch, aa.history['recall'], 'train_recall', '-', 'b')
-plotting_ready(aa.epoch, aa.history['val_recall'], 'val_recall', '--', 'b')
+plt.plot(aa.epoch, aa.history['recall'], label='train_recall', color='b')
+plt.plot(aa.epoch, aa.history['val_recall'], label='val_recall', linestyle='--', color='b')
 plotting('epoch','recall')
 plt.subplot(223)
-plotting_ready(aa.epoch, list_Train, 'train f1 score', '-', 'b')
-plotting_ready(aa.epoch, list_val, 'val f1 score', '--', 'b')
+plt.plot(aa.epoch, list_Train, label='train f1 score', color='g')
+plt.plot(aa.epoch, list_val, label='val f1 score', linestyle='--', color='g')
 plotting('epoch','f1 score')
