@@ -198,3 +198,43 @@ for j in range(3):
     plotting_ready(aa.epoch, list_val, 'val smote=' + str(x_list[j]), '--', color[j])
 
 plotting('epoch', 'f1_score')
+
+
+####################################################################################
+# 7.1 final result F1_score
+####################################################################################
+
+model = Sequential([
+    InputLayer(input_shape=(29,)),
+    Dense(15, activation='elu', name='hidden_layer'),
+    Dense(1, activation='sigmoid', name='output_layer')]
+)
+
+n_inputs = x_train.shape[1]
+n_output = 2
+
+model.compile(loss='binary_crossentropy', optimizer='RMSprop', metrics=METRICS)  # binary_crossentropy
+aa = model.fit(X, Y, epochs=100, batch_size=2000, validation_data=(x_val_normal, y_val))
+score = model.evaluate(x_test_normal, y_test[:, 1],batch_size=x_test_normal.shape[0])
+list_Train = []
+list_val = []
+test = []
+for i in range(100):
+    list_Train.append(2 * (aa.history['precision'][i] * aa.history['recall'][i]) / (
+                aa.history['precision'][i] + aa.history['recall'][i]))
+    list_val.append(2 * (aa.history['val_precision'][i] * aa.history['val_recall'][i]) / (
+            aa.history['val_precision'][i] + aa.history['val_recall'][i]))
+
+plt.subplot(221)
+plt.plot(aa.epoch, aa.history['precision'], label='train_precision')
+plt.plot(aa.epoch, aa.history['val_precision'], linestyle='--', label='val_precision')
+plotting('epoch', 'precision')
+plt.subplot(222)
+plt.plot(aa.epoch, aa.history['recall'], label='train_recall')
+plt.plot(aa.epoch, aa.history['val_recall'], linestyle='--',label='val_recall')
+plotting('epoch','recall')
+plt.subplot(223)
+plt.plot(aa.epoch, list_Train, label='train f1 score')
+plt.plot(aa.epoch, list_val, linestyle='--',label='val f1 score')
+plotting('epoch','f1 score')
+plt.show()
