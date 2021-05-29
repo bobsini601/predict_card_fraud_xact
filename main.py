@@ -104,6 +104,12 @@ plot_scatter_data(x_train_normal,y_train[:,1],'BeforeSMOTE')
 plot_scatter_data(X,Y,'AfterSMOTE')
 
 
+'''accuracy, precision, recall 선언'''
+METRICS = [
+      keras.metrics.BinaryAccuracy(name='accuracy'),
+      keras.metrics.Precision(name='precision'),
+      keras.metrics.Recall(name='recall')
+]
 
 ####################################################################################
 # 6.3 COMOPARE ReLU, ELU
@@ -170,12 +176,6 @@ for i in range(2):
 
 x_list.insert(0,0)
 print(dic_x[0], dic_y[0])
-
-METRICS = [
-      keras.metrics.BinaryAccuracy(name='accuracy'),
-      keras.metrics.Precision(name='precision'),
-      keras.metrics.Recall(name='recall')
-]
 
 color = ['r','g','b']
 test_f1= []
