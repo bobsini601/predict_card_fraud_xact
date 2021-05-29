@@ -149,8 +149,8 @@ for b_size in b_list:
 
     acc_label='batch{0},accuracy'.format(b_size)
     loss_label='batch{0},loss'.format(b_size)
-    plotting_ready(batch_res.epoch, batch_res.history['accuracy'],b_size, acc_label, '-', 'b')
-    plotting_ready(batch_res.epoch, batch_res.history['loss'], b_size,loss_label, '--', 'b')
+    plotting_ready(batch_res.epoch, batch_res.history['accuracy'],acc_label, '-', 'b')
+    plotting_ready(batch_res.epoch, batch_res.history['loss'],loss_label, '--', 'b')
 
     model.evaluate(x_test_normal, y_test[:, 1], batch_size=x_test_normal.shape[0])
 
