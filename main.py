@@ -1,4 +1,3 @@
-import csv
 import pandas as pd
 import numpy as np
 import sys, os
@@ -10,9 +9,9 @@ from tensorflow.python.keras.layers import Dense, Activation
 from matplotlib import pyplot as plt
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
+import keras.metrics
 
 def get_CSV(load):
-    data1 = []
     data1 = pd.read_csv(load)
     data2 = data1.to_numpy()
     return data2
@@ -99,7 +98,7 @@ plot_scatter_data(X,Y,'AfterSMOTE')
 
 
 ####################################################################################
-# 6.3 COMOPARE RERU, ELU
+# 6.3 COMOPARE ReLU, ELU
 ####################################################################################
 relu_model = Sequential([
             InputLayer(input_shape=(29,)),
@@ -147,3 +146,55 @@ for b_size in b_list:
 
 
 plotting('final layer', 'acc&loss')
+
+####################################################################################
+# 6.5 Accuracy plotting according to SMOTE ratio
+####################################################################################
+x_list=[0.3, 1.0]
+dic_x = {0:x_train_normal}
+dic_y = {0:y_train[:,1]}
+for i in range(2):
+    n1, n2 = SMOTE(random_state=0,sampling_strategy=x_list[i]).fit_resample(x_train_normal,y_train[:,1])
+    dic_x[i+1] = n1
+    dic_y[i+1] = n2
+
+x_list.insert(0,0)
+print(dic_x[0], dic_y[0])
+
+METRICS = [
+      keras.metrics.BinaryAccuracy(name='accuracy'),
+      keras.metrics.Precision(name='precision'),
+      keras.metrics.Recall(name='recall')
+]
+
+color = ['r','g','b']
+test_f1= []
+for j in range(3):
+    model = Sequential([
+        InputLayer(input_shape=(29,)),
+        Dense(15, activation='elu', name='hidden_layer'),
+        Dense(1, activation='sigmoid', name='output_layer')]
+    )
+
+    n_inputs = x_train.shape[1]
+    n_output = 2
+
+    model.compile(loss='binary_crossentropy', optimizer='RMSprop', metrics=METRICS)  # binary_crossentropy
+    aa = model.fit(dic_x[j], dic_y[j], epochs=100, batch_size=2000, validation_data=(x_val_normal, y_val))
+    # model.summary()
+    score = model.evaluate(x_test_normal, y_test[:, 1],batch_size=x_test_normal.shape[0])
+    test_f1.append(2 * (score[2] * score[3]) / (score[2] + score[3]))
+    list_Train = []
+    list_val = []
+    test = []
+    for i in range(100):
+        list_Train.append(2 * (aa.history['precision'][i] * aa.history['recall'][i]) / (
+                    aa.history['precision'][i] + aa.history['recall'][i]))
+        list_val.append(2 * (aa.history['val_precision'][i] * aa.history['val_recall'][i]) / (
+                aa.history['val_precision'][i] + aa.history['val_recall'][i]))
+
+
+    plotting_ready(aa.epoch, list_Train, 'train smote='+str(x_list[j]), '-', color[j])
+    plotting_ready(aa.epoch, list_val, 'val smote=' + str(x_list[j]), '--', color[j])
+
+plotting('epoch', 'f1_score')
