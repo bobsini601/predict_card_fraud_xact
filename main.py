@@ -168,8 +168,10 @@ for i in range(4):
 plotting('final layer', 'acc&loss')
 
 ####################################################################################
-# 6.5 Accuracy plotting according to SMOTE ratio
+# 6.5 f1_score plotting according to SMOTE ratio
 ####################################################################################
+
+ # smote ratio = not smote, 0.3, 1.0
 x_list=[0.3, 1.0]
 dic_x = {0:x_train_normal}
 dic_y = {0:y_train[:,1]}
@@ -177,11 +179,12 @@ for i in range(2):
     n1, n2 = SMOTE(random_state=0,sampling_strategy=x_list[i]).fit_resample(x_train_normal,y_train[:,1])
     dic_x[i+1] = n1
     dic_y[i+1] = n2
-
 x_list.insert(0,0)
 
 color = ['r','g','b']
 test_f1= []
+
+ # repeat 3 times with smote=[0, 0.3, 1.0]
 for j in range(3):
     model = Sequential([
         InputLayer(input_shape=(29,)),
@@ -192,14 +195,13 @@ for j in range(3):
     n_inputs = x_train.shape[1]
     n_output = 2
 
-    model.compile(loss='binary_crossentropy', optimizer='RMSprop', metrics=METRICS)  # binary_crossentropy
+    model.compile(loss='binary_crossentropy', optimizer='RMSprop', metrics=METRICS)
     aa = model.fit(dic_x[j], dic_y[j], epochs=100, batch_size=2000, validation_data=(x_val_normal, y_val))
-    # model.summary()
     score = model.evaluate(x_test_normal, y_test[:, 1],batch_size=x_test_normal.shape[0])
-    test_f1.append(2 * (score[2] * score[3]) / (score[2] + score[3]))
     list_Train = []
     list_val = []
-    test = []
+
+    # calculate f1_score of train and validation data
     for i in range(100):
         list_Train.append(2 * (aa.history['precision'][i] * aa.history['recall'][i]) / (
                     aa.history['precision'][i] + aa.history['recall'][i]))
