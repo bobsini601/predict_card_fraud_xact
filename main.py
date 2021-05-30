@@ -163,7 +163,7 @@ for i in range(4):
     plotting_ready(batch_res.epoch, batch_res.history['accuracy'],acc_label, '-', c_list[i])
     plotting_ready(batch_res.epoch, batch_res.history['loss'],loss_label, '--', c_list[i])
 
-    model.evaluate(x_test_normal, y_test[:, 1], batch_size=x_test_normal.shape[0])
+    model.evaluate(x_test_normal, y_test[:, 1], batch_size=1000)
 
 
 plotting('final layer', 'acc&loss')
@@ -198,7 +198,7 @@ for j in range(3):
 
     model.compile(loss='binary_crossentropy', optimizer='RMSprop', metrics=METRICS)
     aa = model.fit(dic_x[j], dic_y[j], epochs=100, batch_size=2000, validation_data=(x_val_normal, y_val))
-    score = model.evaluate(x_test_normal, y_test[:, 1],batch_size=x_test_normal.shape[0])
+    score = model.evaluate(x_test_normal, y_test[:, 1],batch_size=1000)
     list_Train = []
     list_val = []
 
@@ -230,7 +230,7 @@ def diff_lr(learing_rate):
     model.compile(loss='binary_crossentropy', optimizer=keras.optimizers.RMSprop(lr=learing_rate), metrics=['accuracy'])
     training = model.fit(X, Y, epochs=100, batch_size=2000, validation_data=(x_val_normal, y_val))
     model.summary()
-    score = model.evaluate(x_test_normal, y_test[:, 1], batch_size=x_test_normal.shape[0])
+    score = model.evaluate(x_test_normal, y_test[:, 1], batch_size=1000)
     print(score)  # loss & accuracy 출력
 
     return training
@@ -259,7 +259,7 @@ def diff_optimizer(opt):  # adam, SGD, RMSprop
     model.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
     training = model.fit(X, Y, epochs=100, batch_size=2000, validation_data=(x_val_normal, y_val))
     model.summary()
-    score = model.evaluate(x_test_normal, y_test[:, 1], batch_size=x_test_normal.shape[0])
+    score = model.evaluate(x_test_normal, y_test[:, 1], batch_size=1000)
     print(score)  # loss & accuracy 출력
 
     return training
@@ -291,7 +291,7 @@ n_output = 2
  # batch size = 2000 / epochs = 100
 model.compile(loss='binary_crossentropy', optimizer='RMSprop', metrics=METRICS)
 aa = model.fit(X, Y, epochs=100, batch_size=2000, validation_data=(x_val_normal, y_val))
-score = model.evaluate(x_test_normal, y_test[:, 1],batch_size=x_test_normal.shape[0])
+score = model.evaluate(x_test_normal, y_test[:, 1],batch_size=1000)
 
  # save f1_score to list ( train and validation data )
 list_Train = []
