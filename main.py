@@ -281,9 +281,14 @@ model = Sequential([
 n_inputs = x_train.shape[1]
 n_output = 2
 
-model.compile(loss='binary_crossentropy', optimizer='RMSprop', metrics=METRICS)  # binary_crossentropy
+ # loss function = binary cross entropy
+ # optimizer function = RMSprop
+ # batch size = 2000 / epochs = 100
+model.compile(loss='binary_crossentropy', optimizer='RMSprop', metrics=METRICS)
 aa = model.fit(X, Y, epochs=100, batch_size=2000, validation_data=(x_val_normal, y_val))
 score = model.evaluate(x_test_normal, y_test[:, 1],batch_size=x_test_normal.shape[0])
+
+ # save f1_score to list ( train and validation data )
 list_Train = []
 list_val = []
 for i in range(100):
@@ -292,26 +297,20 @@ for i in range(100):
     list_val.append(2 * (aa.history['val_precision'][i] * aa.history['val_recall'][i]) / (
             aa.history['val_precision'][i] + aa.history['val_recall'][i]))
 
+
+ # plotting precision, recall, f1_score per epoch
+ # train data with line, validation data with dotted line
 plt.subplot(221)
-plotting_ready(aa.epoch, aa.history['precision'], label='train_precision', color='r')
-plotting_ready(aa.epoch, aa.history['val_precision'], label='val_precision', linestyle='--', color='r')
-plt.xlabel('epoch')
-plt.ylabel('precision')
-plt.legend()
+plt.plot(aa.epoch, aa.history['precision'], label='train_precision', color='r')
+plt.plot(aa.epoch, aa.history['val_precision'], label='val_precision', linestyle='--', color='r')
+plotting('epoch', 'precision')
 
 plt.subplot(222)
-plotting_ready(aa.epoch, aa.history['recall'], label='train_recall', color='b')
-plotting_ready(aa.epoch, aa.history['val_recall'], label='val_recall', linestyle='--', color='b')
-plt.xlabel('epoch')
-plt.ylabel('recall')
-plt.legend()
-
+plt.plot(aa.epoch, aa.history['recall'], label='train_recall', color='b')
+plt.plot(aa.epoch, aa.history['val_recall'], label='val_recall', linestyle='--', color='b')
+plotting('epoch','recall')
 
 plt.subplot(223)
-plotting_ready(aa.epoch, list_Train, label='train f1 score', color='g')
-plotting_ready(aa.epoch, list_val, label='val f1 score', linestyle='--', color='g')
-plt.xlabel('epoch')
-plt.ylabel('f1 score')
-plt.legend()
-
-plt.show()
+plt.plot(aa.epoch, list_Train, label='train f1 score', color='g')
+plt.plot(aa.epoch, list_val, label='val f1 score', linestyle='--', color='g')
+plotting('epoch','f1 score')
