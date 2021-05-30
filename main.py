@@ -113,7 +113,7 @@ METRICS = [
 ]
 
 ####################################################################################
-# 6.3 COMOPARE ReLU, ELU
+# 6.3 COMPARE ReLU, ELU
 ####################################################################################
 ''' activation 함수를 relu로 하는 model 설정 '''
 relu_model = Sequential([
@@ -215,11 +215,10 @@ plotting('epoch', 'f1_score')
 ####################################################################################
 # 6.6 FIND OPTIMAL LEARNING RATE
 ####################################################################################
-'''learing rate 비교'''
+color = ['r', 'g', 'b','c','m','y','k'] #plotting 하기위한 색 7가지
 
-color = ['r', 'g', 'b','c','m','y','k']
-def diff_lr(learing_rate):  # 0.000001 ~ 1.0
-    model = Sequential([
+def diff_lr(learing_rate):
+    model = Sequential([ #모델링
         InputLayer(input_shape=(29,)),
         Dense(15, activation='elu', name='hidden_layer'),
         Dense(1, activation='sigmoid', name='output_layer')]
@@ -234,8 +233,8 @@ def diff_lr(learing_rate):  # 0.000001 ~ 1.0
     return training
 
 
-num = 0.00001
-for i in range(1, 7):
+num = 0.00001 #처음 learing rate
+for i in range(1, 7): # learing rate: 0.00001, 0.0001, 0.001, 0.01, 0.1, 1.0
     a = diff_lr(num)
     plotting_ready(a.epoch, a.history['loss'], num, '-', color[i])
     num *= 10
@@ -245,8 +244,8 @@ plotting('epoch', 'loss')
 ####################################################################################
 # 6.7 FIND OPTIMIZER FUNCTION
 ####################################################################################
-opt_dict = ["adam", "SGD", "RMSprop"]
-color = ['r', 'g', 'b']
+opt_dict = ["adam", "SGD", "RMSprop"] #optimizer 함수 3가지
+color = ['r', 'g', 'b'] #plotting 하기위한 색 3가지
 
 def diff_optimizer(opt):  # adam, SGD, RMSprop
     model = Sequential([
