@@ -112,10 +112,11 @@ METRICS = [
       keras.metrics.Recall(name='recall')
 ]
 
+'''
 ####################################################################################
 # 6.3 COMPARE ReLU, ELU
 ####################################################################################
-''' activation 함수를 relu로 하는 model 설정 '''
+ activation 함수를 relu로 하는 model 설정 
 relu_model = Sequential([
             InputLayer(input_shape=(29,)),
             Dense(15, activation='relu', name='hidden_layer'),
@@ -127,19 +128,19 @@ relu_res = relu_model.fit(X,Y,epochs=100,batch_size=2000,validation_data=(x_val_
 plotting_ready(relu_res.epoch, relu_res.history['accuracy'], 'relu,accuracy', '-','r')
 plotting_ready(relu_res.epoch, relu_res.history['loss'], 'relu,loss', '--', 'r')
 
-''' activation 함수를 elu로 하는 model 설정 '''
+activation 함수를 elu로 하는 model 설정
 elu_model = Sequential([
             InputLayer(input_shape=(29,)),
             Dense(15, activation='elu', name='hidden_layer'),
             Dense(1, activation='sigmoid', name='output_layer')]
             )
 elu_model.compile(loss='binary_crossentropy',optimizer='RMSprop',metrics=['accuracy'])
-elu_res = elu_model.fit(X,Y,epochs=100,batch_size=2000,validation_data=(x_val_normal,y_val))
+elu_res = elu_model.fit(X,Y,epochs=100,batch_size=1000,validation_data=(x_val_normal,y_val))
 
 plotting_ready(elu_res.epoch, elu_res.history['accuracy'], 'elu,accuracy', '-','b')
 plotting_ready(elu_res.epoch, elu_res.history['loss'], 'elu,loss', '--', 'b')
 
-''' model을 학습한 과정을 accuracy와 loss 출력 '''
+model을 학습한 과정을 accuracy와 loss 출력
 plotting('final layer','acc&loss')
 
 ####################################################################################
@@ -268,7 +269,9 @@ for i in range(3):
     a = diff_optimizer(opt_dict[i])
     plotting_ready(a.epoch, a.history['loss'], opt_dict[i] + ", loss", '-', color[i])
 
-plotting('epoch', 'loss')
+#plotting('epoch', 'loss')
+
+'''
 
 ####################################################################################
 # 7.1 final result F1_score
@@ -302,6 +305,9 @@ for i in range(100):
 
  # plotting precision, recall, f1_score per epoch
  # train data with line, validation data with dotted line
+
+
+
 plt.subplot(221)
 plotting_ready(aa.epoch, aa.history['precision'], label='train_precision', color='r')
 plotting_ready(aa.epoch, aa.history['val_precision'], label='val_precision', linestyle='--', color='r')
