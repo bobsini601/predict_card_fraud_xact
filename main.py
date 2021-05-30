@@ -142,21 +142,21 @@ plotting('final layer','acc&loss')
 # 6.4 FIND OPTIMAL EPOCHS, BATCH_SIZE
 ####################################################################################
 b_list=[100,1000,2000,X.shape[0]]
+c_list=['r','g','b','black']
 
-for b_size in b_list:
+for i in range(4):
     model = Sequential([
         InputLayer(input_shape=(29,)),
         Dense(15, activation='elu', name='hidden_layer'),
         Dense(1, activation='sigmoid', name='output_layer')]
     )
 
-    model.compile(loss='binary_crossentropy', optimizer='RMSprop')  # binary_crossentropy
-    batch_res = model.fit(X,Y,epochs=100,batch_size=b_size,validation_data=(x_val_normal,y_val))
-
-    acc_label='batch{0},accuracy'.format(b_size)
-    loss_label='batch{0},loss'.format(b_size)
-    plotting_ready(batch_res.epoch, batch_res.history['accuracy'],acc_label, '-', 'b')
-    plotting_ready(batch_res.epoch, batch_res.history['loss'],loss_label, '--', 'b')
+    model.compile(loss='binary_crossentropy', optimizer='RMSprop',metrics=['accuracy'])  # binary_crossentropy
+    batch_res = model.fit(X,Y,epochs=100,batch_size=b_list[i],validation_data=(x_val_normal,y_val))
+    acc_label='batch{0},accuracy'.format(b_list[i])
+    loss_label='batch{0},loss'.format(b_list[i])
+    plotting_ready(batch_res.epoch, batch_res.history['accuracy'],acc_label, '-', c_list[i])
+    plotting_ready(batch_res.epoch, batch_res.history['loss'],loss_label, '--', c_list[i])
 
     model.evaluate(x_test_normal, y_test[:, 1], batch_size=x_test_normal.shape[0])
 
