@@ -120,7 +120,7 @@ relu_model = Sequential([
             Dense(1, activation='sigmoid', name='output_layer')]
             )
 relu_model.compile(loss='binary_crossentropy',optimizer='RMSprop',metrics=['accuracy'])
-relu_res = relu_model.fit(X,Y,epochs=100,batch_size=1000,validation_data=(x_val_normal,y_val))
+relu_res = relu_model.fit(X,Y,epochs=100,batch_size=2000,validation_data=(x_val_normal,y_val))
 
 plotting_ready(relu_res.epoch, relu_res.history['accuracy'], 'relu,accuracy', '-','r')
 plotting_ready(relu_res.epoch, relu_res.history['loss'], 'relu,loss', '--', 'r')
@@ -220,7 +220,7 @@ def diff_lr(learing_rate):  # 0.000001 ~ 1.0
     )
     
     model.compile(loss='binary_crossentropy', optimizer=keras.optimizers.RMSprop(lr=learing_rate), metrics=['accuracy'])
-    training = model.fit(X, Y, epochs=100, batch_size=1000, validation_data=(x_val_normal, y_val))
+    training = model.fit(X, Y, epochs=100, batch_size=2000, validation_data=(x_val_normal, y_val))
     model.summary()
     score = model.evaluate(x_test_normal, y_test[:, 1], batch_size=x_test_normal.shape[0])
     print(score)  # loss & accuracy 출력
@@ -246,7 +246,7 @@ def diff_optimizer(opt):  #adam, SGD, RMSprop
         Dense(1, activation='sigmoid', name='output_layer')]
     )
     model.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
-    training = model.fit(X, Y, epochs=100, batch_size=1000, validation_data=(x_val_normal, y_val))
+    training = model.fit(X, Y, epochs=100, batch_size=2000, validation_data=(x_val_normal, y_val))
     model.summary()
     score = model.evaluate(x_test_normal, y_test[:, 1], batch_size=x_test_normal.shape[0])
     print(score)  # loss & accuracy 출력
