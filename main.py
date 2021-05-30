@@ -212,13 +212,15 @@ plotting('epoch', 'f1_score')
 # 6.6 FIND OPTIMAL LEARNING RATE
 ####################################################################################
 '''learing rate 비교'''
+
+color = ['r', 'g', 'b','c','m','y','k']
 def diff_lr(learing_rate):  # 0.000001 ~ 1.0
     model = Sequential([
         InputLayer(input_shape=(29,)),
         Dense(15, activation='elu', name='hidden_layer'),
         Dense(1, activation='sigmoid', name='output_layer')]
     )
-    
+
     model.compile(loss='binary_crossentropy', optimizer=keras.optimizers.RMSprop(lr=learing_rate), metrics=['accuracy'])
     training = model.fit(X, Y, epochs=100, batch_size=2000, validation_data=(x_val_normal, y_val))
     model.summary()
@@ -227,19 +229,22 @@ def diff_lr(learing_rate):  # 0.000001 ~ 1.0
 
     return training
 
-num=0.00001
-for i in range(1,7):
+
+num = 0.00001
+for i in range(1, 7):
     a = diff_lr(num)
-    plotting_ready(a.epoch, a.history['loss'], num)
-    num*=10
-    
+    plotting_ready(a.epoch, a.history['loss'], num, '-', color[i])
+    num *= 10
+
 plotting('epoch', 'loss')
-    
+
 ####################################################################################
 # 6.7 FIND OPTIMIZER FUNCTION
 ####################################################################################
-opt_dict = {"adam":1, "SGD":2, "RMSprop":3}
-def diff_optimizer(opt):  #adam, SGD, RMSprop
+opt_dict = ["adam", "SGD", "RMSprop"]
+color = ['r', 'g', 'b']
+
+def diff_optimizer(opt):  # adam, SGD, RMSprop
     model = Sequential([
         InputLayer(input_shape=(29,)),
         Dense(15, activation='elu', name='hidden_layer'),
@@ -253,9 +258,10 @@ def diff_optimizer(opt):  #adam, SGD, RMSprop
 
     return training
 
-for i in opt_dict:
-    a = diff_optimizer(i)
-    plotting_ready(a.epoch, a.history['loss'], i+", loss")
+
+for i in range(3):
+    a = diff_optimizer(opt_dict[i])
+    plotting_ready(a.epoch, a.history['loss'], opt_dict[i] + ", loss", '-', color[i])
 
 plotting('epoch', 'loss')
 
