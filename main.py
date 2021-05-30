@@ -134,7 +134,7 @@ elu_model = Sequential([
             Dense(1, activation='sigmoid', name='output_layer')]
             )
 elu_model.compile(loss='binary_crossentropy',optimizer='RMSprop',metrics=['accuracy'])
-elu_res = elu_model.fit(X,Y,epochs=100,batch_size=1000,validation_data=(x_val_normal,y_val))
+elu_res = elu_model.fit(X,Y,epochs=100,batch_size=2000,validation_data=(x_val_normal,y_val))
 
 plotting_ready(elu_res.epoch, elu_res.history['accuracy'], 'elu,accuracy', '-','b')
 plotting_ready(elu_res.epoch, elu_res.history['loss'], 'elu,loss', '--', 'b')
