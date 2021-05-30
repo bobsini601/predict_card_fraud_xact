@@ -115,6 +115,7 @@ METRICS = [
 ####################################################################################
 # 6.3 COMOPARE ReLU, ELU
 ####################################################################################
+''' activation 함수를 relu로 하는 model 설정 '''
 relu_model = Sequential([
             InputLayer(input_shape=(29,)),
             Dense(15, activation='relu', name='hidden_layer'),
@@ -126,6 +127,7 @@ relu_res = relu_model.fit(X,Y,epochs=100,batch_size=2000,validation_data=(x_val_
 plotting_ready(relu_res.epoch, relu_res.history['accuracy'], 'relu,accuracy', '-','r')
 plotting_ready(relu_res.epoch, relu_res.history['loss'], 'relu,loss', '--', 'r')
 
+''' activation 함수를 elu로 하는 model 설정 '''
 elu_model = Sequential([
             InputLayer(input_shape=(29,)),
             Dense(15, activation='elu', name='hidden_layer'),
@@ -137,6 +139,7 @@ elu_res = elu_model.fit(X,Y,epochs=100,batch_size=1000,validation_data=(x_val_no
 plotting_ready(elu_res.epoch, elu_res.history['accuracy'], 'elu,accuracy', '-','b')
 plotting_ready(elu_res.epoch, elu_res.history['loss'], 'elu,loss', '--', 'b')
 
+''' model을 학습한 과정을 accuracy와 loss 출력 '''
 plotting('final layer','acc&loss')
 
 ####################################################################################
