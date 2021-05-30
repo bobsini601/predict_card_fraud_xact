@@ -147,7 +147,7 @@ c_list=['r','g','b','black']
 for i in range(4):
     model = Sequential([
         InputLayer(input_shape=(29,)),
-        Dense(15, activation='relu', name='hidden_layer'),
+        Dense(15, activation='elu', name='hidden_layer'),
         Dense(1, activation='sigmoid', name='output_layer')]
     )
 
@@ -181,7 +181,7 @@ test_f1= []
 for j in range(3):
     model = Sequential([
         InputLayer(input_shape=(29,)),
-        Dense(15, activation='relu', name='hidden_layer'),
+        Dense(15, activation='elu', name='hidden_layer'),
         Dense(1, activation='sigmoid', name='output_layer')]
     )
 
@@ -215,7 +215,7 @@ plotting('epoch', 'f1_score')
 def diff_lr(learing_rate):  # 0.000001 ~ 1.0
     model = Sequential([
         InputLayer(input_shape=(29,)),
-        Dense(15, activation='relu', name='hidden_layer'),
+        Dense(15, activation='elu', name='hidden_layer'),
         Dense(1, activation='sigmoid', name='output_layer')]
     )
     
@@ -242,7 +242,7 @@ opt_dict = {"adam":1, "SGD":2, "RMSprop":3}
 def diff_optimizer(opt):  #adam, SGD, RMSprop
     model = Sequential([
         InputLayer(input_shape=(29,)),
-        Dense(15, activation='relu', name='hidden_layer'),
+        Dense(15, activation='elu', name='hidden_layer'),
         Dense(1, activation='sigmoid', name='output_layer')]
     )
     model.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
@@ -265,7 +265,7 @@ plotting('epoch', 'loss')
 
 model = Sequential([
     InputLayer(input_shape=(29,)),
-    Dense(15, activation='relu', name='hidden_layer'),
+    Dense(15, activation='elu', name='hidden_layer'),
     Dense(1, activation='sigmoid', name='output_layer')]
 )
 
