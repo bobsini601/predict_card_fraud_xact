@@ -29,7 +29,8 @@ def plot_data_size(values,name):
     plt.show()
 
 '''
-30개의 input feature를 2개의 feature로 scaling한 뒤에, PCA함수를 통해 2차원으로 줄인다.
+30개의 input feature를 scaling한 뒤에, PCA함수를 통해 2차원으로 줄인다
+scatter를 통해, 줄인 2개의 feature를 class별로 색을 다르게 해서 출력한다.
 '''
 def plot_scatter_data(X,Y,name):
     scaled_data=StandardScaler().fit_transform(X)
