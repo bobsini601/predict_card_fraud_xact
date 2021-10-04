@@ -167,6 +167,8 @@ activation 함수의 원래 역할은 "복잡도"이지만, 마지막 layer의 a
 
  #### 6-5. SMOTE 비율에 따른 정확도 plotting
 
+<img src="https://user-images.githubusercontent.com/52345499/135886350-1908d351-ad5c-40bf-91b3-f074a5a78a48.png" witdh="300">
+
 <smote 비율에 따른 f1 score의 값 비교>
 
   위 사진은 smote 비율에 따른 f1 score입니다. smote를 하지 않았을 때와 smote를 했을 때를 비교해보면, smote를 했을 때가 f1 score 값이 훨씬 잘 나옴을 알 수 있습니다. 추가적으로, 최적의 smote 비율을 찾기 위해 plotting을 한 결과, 1일때 f1 score가 제일 높아 smote의 비율을 1로 정하였습니다.
@@ -175,10 +177,15 @@ activation 함수의 원래 역할은 "복잡도"이지만, 마지막 layer의 a
   learning rate가 너무 큰 경우에는 overshooting이 일어나 최소값을 찾는게 아니라 오히려 발산형 그래프가 될 수 있는 위험이 있고, learning rate가 너무 작은 경우에는 학습속도가 너무 느려서 원하는 값을 찾기 힘들 수 있다.
  0.00001에서 1.0까지 learning rate값을 10배씩 증가시켜서 비교해 보았다. 그래프는 epoch에 따른 loss 추이를 나타낸 것이고 learning rate에 따라서 다양한 기울기를 관찰할 수 있었다. 0.00001과 0.0001(파랑, 주황 그래프)는 loss의 변화가 너무 느린것을 보아 학습 속도가 현저히 느리다는 것을 파악할 수 있다. 그에 비해 0.01이상의 수 부터는 학습이 제대로 진행되는지 관찰하기가 힘들어지고, learning rate가 10이상일 때는 overshooting이 일어나 값이 튀는 것을 확인할 수 있었다. 결론적으로 학습이 가장 이상적으로 진행되는 0.001 값을 learning rate로 채택하게 되었다.
 
+<img src="https://user-images.githubusercontent.com/52345499/135886247-f377d2ff-8691-4bae-9251-b9f0d8cc660c.png" width="400">
+
 <learning rate에 따른 loss 비교>
 
  #### 6-7. optimizer함수  
   모두 동일한 조건으로 환경을 구성하고 optimizer 함수만 바꾸어 비교해 보았다. 9개의 라이브러리 중 자주 쓰이는 SGD, Adam, RMSprop 클래스를 가져왔다. 3개의 함수 또한 accuracy에서는 큰 차이를 보이지 않아서 loss를 기준으로 비교해 보았고 그 결과 RMSprop가 가장 빠르고 작은 loss를 보여서 RMSprop을 optimizer 함수로 사용하게 되었다.
+
+
+<img src="https://user-images.githubusercontent.com/52345499/135886145-88edc846-a3ac-490d-af29-4626ee7c6311.png" width="400">
 
 <optimizer 함수의 종류에 따른 loss 비교>
 
@@ -191,11 +198,14 @@ activation 함수의 원래 역할은 "복잡도"이지만, 마지막 layer의 a
  학습이 잘 되었는지, 결과를 평가하기 위해 f1-score을 사용하였다. accuracy와 loss 값만으로 결과의 성능을 예측하기에는 데이터의 특성상 데이터 불균형이 심하기 때문에 추가적인 평가 지표가 필요하였다. 
  f1-score을 구하기 위해선 precision, recall 값이 필요하다. precision(정밀도)란, 모델이 true라고 분류한 것 중에서 실제 true인 것의 비율을 뜻한다. recall(재현율)이란, 실제 true인 것 중에서 모델이 true라고 예측한 비율을 뜻한다. 최종적으로 f1-score은 다음과 같이 구할 수 있다.
 
+
+<img src="https://user-images.githubusercontent.com/52345499/135885875-3e627467-bd49-437e-a0cb-3381b901c014.png" width="300">
+
 <f1 score를 구하는 공식>
 
  밑의 사진은 epoch=100, batch=2000, smote=1 로 했을 때의 precision, recall, f1-score을 plotting 한 결과이다. train data의 plotting 그래프와 validation data의 plotting 그래프를 보면 거의 비슷한 값을 가짐을 알 수 있다. 또한 epoch가 증가할수록 precision, recall이 점차 증가되는 모습을 보아 잘 학습됨을 알 수 있다. 최종 f1-score는 0.9613으로 학습이 잘 되었음을 보여준다. 
 
-
+<img src="https://user-images.githubusercontent.com/52345499/135886022-89c61a35-9a02-45d4-9273-9e2ad37b5ce9.png" width="400">
 
 <validation data와 train data의 epoch 값에 따른 f1 score 변화>
 
