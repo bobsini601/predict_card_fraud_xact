@@ -124,10 +124,8 @@ relu_model = Sequential([
             )
 relu_model.compile(loss='binary_crossentropy',optimizer='RMSprop',metrics=['accuracy'])
 relu_res = relu_model.fit(X,Y,epochs=100,batch_size=2000,validation_data=(x_val_normal,y_val))
-
 plotting_ready(relu_res.epoch, relu_res.history['accuracy'], 'relu,accuracy', '-','r')
 plotting_ready(relu_res.epoch, relu_res.history['loss'], 'relu,loss', '--', 'r')
-
 activation 함수를 elu로 하는 model 설정
 elu_model = Sequential([
             InputLayer(input_shape=(29,)),
@@ -136,42 +134,32 @@ elu_model = Sequential([
             )
 elu_model.compile(loss='binary_crossentropy',optimizer='RMSprop',metrics=['accuracy'])
 elu_res = elu_model.fit(X,Y,epochs=100,batch_size=2000,validation_data=(x_val_normal,y_val))
-
 plotting_ready(elu_res.epoch, elu_res.history['accuracy'], 'elu,accuracy', '-','b')
 plotting_ready(elu_res.epoch, elu_res.history['loss'], 'elu,loss', '--', 'b')
-
 model을 학습한 과정을 accuracy와 loss 출력
 plotting('final layer','acc&loss')
-
 ####################################################################################
 # 6.4 FIND OPTIMAL EPOCHS, BATCH_SIZE
 ####################################################################################
 b_list=[100,1000,2000,X.shape[0]]
 c_list=['r','g','b','black']
-
 for i in range(4):
     model = Sequential([
         InputLayer(input_shape=(29,)),
         Dense(15, activation='elu', name='hidden_layer'),
         Dense(1, activation='sigmoid', name='output_layer')]
     )
-
     model.compile(loss='binary_crossentropy', optimizer='RMSprop',metrics=['accuracy'])  # binary_crossentropy
     batch_res = model.fit(X,Y,epochs=100,batch_size=b_list[i],validation_data=(x_val_normal,y_val))
     acc_label='batch{0},accuracy'.format(b_list[i])
     loss_label='batch{0},loss'.format(b_list[i])
     plotting_ready(batch_res.epoch, batch_res.history['accuracy'],acc_label, '-', c_list[i])
     plotting_ready(batch_res.epoch, batch_res.history['loss'],loss_label, '--', c_list[i])
-
     model.evaluate(x_test_normal, y_test[:, 1], batch_size=1000)
-
-
 plotting('final layer', 'acc&loss')
-
 ####################################################################################
 # 6.5 f1_score plotting according to SMOTE ratio
 ####################################################################################
-
  # smote ratio = not smote, 0.3, 1.0
 x_list=[0.3, 1.0]
 dic_x = {0:x_train_normal}
@@ -181,10 +169,8 @@ for i in range(2):
     dic_x[i+1] = n1
     dic_y[i+1] = n2
 x_list.insert(0,0)
-
 color = ['r','g','b']
 test_f1= []
-
  # repeat 3 times with smote=[0, 0.3, 1.0]
 for j in range(3):
     model = Sequential([
@@ -192,64 +178,49 @@ for j in range(3):
         Dense(15, activation='elu', name='hidden_layer'),
         Dense(1, activation='sigmoid', name='output_layer')]
     )
-
     n_inputs = x_train.shape[1]
     n_output = 2
-
     model.compile(loss='binary_crossentropy', optimizer='RMSprop', metrics=METRICS)
     aa = model.fit(dic_x[j], dic_y[j], epochs=100, batch_size=2000, validation_data=(x_val_normal, y_val))
     score = model.evaluate(x_test_normal, y_test[:, 1],batch_size=1000)
     list_Train = []
     list_val = []
-
     # calculate f1_score of train and validation data
     for i in range(100):
         list_Train.append(2 * (aa.history['precision'][i] * aa.history['recall'][i]) / (
                     aa.history['precision'][i] + aa.history['recall'][i]))
         list_val.append(2 * (aa.history['val_precision'][i] * aa.history['val_recall'][i]) / (
                 aa.history['val_precision'][i] + aa.history['val_recall'][i]))
-
-
     plotting_ready(aa.epoch, list_Train, 'train smote='+str(x_list[j]), '-', color[j])
     plotting_ready(aa.epoch, list_val, 'val smote=' + str(x_list[j]), '--', color[j])
-
 plotting('epoch', 'f1_score')
-
 ####################################################################################
 # 6.6 FIND OPTIMAL LEARNING RATE
 ####################################################################################
 color = ['r', 'g', 'b','c','m','y','k'] #plotting 하기위한 색 7가지
-
 def diff_lr(learing_rate):
     model = Sequential([ #모델링
         InputLayer(input_shape=(29,)),
         Dense(15, activation='elu', name='hidden_layer'),
         Dense(1, activation='sigmoid', name='output_layer')]
     )
-
     model.compile(loss='binary_crossentropy', optimizer=keras.optimizers.RMSprop(lr=learing_rate), metrics=['accuracy'])
     training = model.fit(X, Y, epochs=100, batch_size=2000, validation_data=(x_val_normal, y_val))
     model.summary()
     score = model.evaluate(x_test_normal, y_test[:, 1], batch_size=1000)
     print(score)  # loss & accuracy 출력
-
     return training
-
-
 num = 0.00001 #처음 learing rate
 for i in range(1, 7): # learing rate: 0.00001, 0.0001, 0.001, 0.01, 0.1, 1.0
     a = diff_lr(num)
     plotting_ready(a.epoch, a.history['loss'], num, '-', color[i])
     num *= 10
-
 plotting('epoch', 'loss')
-
 ####################################################################################
 # 6.7 FIND OPTIMIZER FUNCTION
 ####################################################################################
 opt_dict = ["adam", "SGD", "RMSprop"] #optimizer 함수 3가지
 color = ['r', 'g', 'b'] #plotting 하기위한 색 3가지
-
 def diff_optimizer(opt):  # adam, SGD, RMSprop
     model = Sequential([
         InputLayer(input_shape=(29,)),
@@ -261,17 +232,13 @@ def diff_optimizer(opt):  # adam, SGD, RMSprop
     model.summary()
     score = model.evaluate(x_test_normal, y_test[:, 1], batch_size=1000)
     print(score)  # loss & accuracy 출력
-
     return training
-
-
 for i in range(3):
     a = diff_optimizer(opt_dict[i])
     plotting_ready(a.epoch, a.history['loss'], opt_dict[i] + ", loss", '-', color[i])
-
 #plotting('epoch', 'loss')
+'''
 
-''' 
 ####################################################################################
 # 7.1 final result F1_score
 ####################################################################################
