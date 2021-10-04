@@ -59,13 +59,15 @@ cf. 주어진 data의 feature 수는 31개였으나, 사기 거래 판별에 의
 	class 별 비율에 대해서는, 약 16만개의 train data 중 정상거래 data의 개수는 159198개, 사기 거래인 data의 개수가  293개로, class별 편차가 지나치게 컸다. 이런 경우, 모델이 정상 거래라고 판정하는 쪽으로 치우칠 가능성이 있어 오버 샘플링을 통해 사기 거래와 정상 거래의 비율을 어느정도 맞춰주어야 한다. 따라서 SMOTE 기법을 이용하여 정상 거래 : 사기 거래의 비율을 약 10000:18에서 1:1으로 늘려 주었다. 
 
 	<img src="https://user-images.githubusercontent.com/52345499/135883589-2cd3dcdb-f3d6-4e57-a32b-6bdf45126da2.png" width="500">
-	SMOTE 전후의 정상 거래 data와 사기 거래 data 개수 비교
+	
+	<SMOTE 전후의 정상 거래 data와 사기 거래 data 개수 비교>
 
 
 
 
 	<img src="https://user-images.githubusercontent.com/52345499/135883720-db33d450-3458-40ea-9d78-11ce459afdb8.png" width="500">
-	SMOTE 전후의 data분산 정도 차이. 황색 점이 사기 거래 데이터를 의미
+	
+	<SMOTE 전후의 data분산 정도 차이. 황색 점이 사기 거래 데이터를 의미>
 
 
 #### 4.2 Target Output
