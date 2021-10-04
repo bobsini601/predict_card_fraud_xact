@@ -12,9 +12,11 @@ IDE: Pycharm 2021.1
 
 ### 3. 알고리즘에 대한 설명
 
-+ DNN 알고리즘 :
-	DNN은 입력층(input layer)과 출력층(output layer) 사이에 여러 개의 
-	은닉층(hidden layer)들로 이뤄진 인공신경망이다.
++ __DNN 알고리즘__ :
+
+	DNN은 입력층(input layer)과 출력층(output layer) 사이에 여러 개의 은닉층(hidden layer)들로 이뤄진 인공신경망이다.
+	
+	<img src="https://user-images.githubusercontent.com/52345499/135882316-c08c8de4-2ae3-4b31-b240-8e3181196e78.png" width="400">
 
 + layer
   + __hidden layer 수__
@@ -41,27 +43,29 @@ IDE: Pycharm 2021.1
 
 #### 4.1 Input Feature
 
-• Amount : 첫 번째 거래와 각 거래 사이의 경과 된 시간(초)
-• V1 ~ V28 :PCA로 얻은 미리 스케일링 된 변수들로 기밀 유지 문제로 원래 기능과 배경 정보를 제공하지 않는 비공개 된 input feature
++ __Amount__ : 첫 번째 거래와 각 거래 사이의 경과 된 시간(초)
+	
++ __V1 ~ V28__  : PCA로 얻은 미리 스케일링 된 변수들로 기밀 유지 문제로 원래 기능과 배경 정보를 제공하지 않는 비공개 된 input feature
 cf. 주어진 data의 feature 수는 31개였으나, 사기 거래 판별에 의미가 없다고 판단되는 index와 time값을 제외하여 총 29개의 feature를 input feature로 사용했다.
 
-• Input feature plotting :
++ __Input feature plotting__ :
 
- 모델링에 사용해야할 29개의 input feature값을 보면 scale 차이가 심해 학습시키기에 적당하지 않음을 알 수 있다. 따라서 sklearn의 normalize함수를 이용해 모든 input feature 데이터를 -1과 1사이의 값으로 정규화를 해주었다. 위 사진은 정규화를 한 결과이다.
+	<img src="https://user-images.githubusercontent.com/52345499/135882937-4ca51fd0-694b-467c-81fe-8fd042488911.png" width="500">
+	
+ 	모델링에 사용해야할 29개의 input feature값을 보면 scale 차이가 심해 학습시키기에 적당하지 않음을 알 수 있다. 따라서 sklearn의 normalize함수를 이용해 모든 input feature 데이터를 -1과 1사이의 값으로 정규화를 해주었다. 위 사진은 정규화를 한 결과이다.
 
-• 데이터 전처리 : class 별 비율에 대해서는, 약 16만개의 train data 중 정상거래 data의 개수는 159198개, 사기 거래인 data의 개수가  293개로, class별 편차가 지나치게 컸다. 이런 경우, 모델이 정상 거래라고 판정하는 쪽으로 치우칠 가능성이 있어 오버 샘플링을 통해 사기 거래와 정상 거래의 비율을 어느정도 맞춰주어야 한다. 따라서 SMOTE 기법을 이용하여 정상 거래 : 사기 거래의 비율을 약 10000:18에서 1:1으로 늘려 주었다. 
++ __데이터 전처리__ 
 
+	class 별 비율에 대해서는, 약 16만개의 train data 중 정상거래 data의 개수는 159198개, 사기 거래인 data의 개수가  293개로, class별 편차가 지나치게 컸다. 이런 경우, 모델이 정상 거래라고 판정하는 쪽으로 치우칠 가능성이 있어 오버 샘플링을 통해 사기 거래와 정상 거래의 비율을 어느정도 맞춰주어야 한다. 따라서 SMOTE 기법을 이용하여 정상 거래 : 사기 거래의 비율을 약 10000:18에서 1:1으로 늘려 주었다. 
 
-<SMOTE 전후의 정상 거래 data와 사기 거래 data 개수 비교>
-
-
-
-
-
-
+	<img src="https://user-images.githubusercontent.com/52345499/135883589-2cd3dcdb-f3d6-4e57-a32b-6bdf45126da2.png" width="500">
+	SMOTE 전후의 정상 거래 data와 사기 거래 data 개수 비교
 
 
-<SMOTE 전후의 data분산 정도 차이. 황색 점이 사기 거래 데이터를 의미>
+
+
+	<img src="https://user-images.githubusercontent.com/52345499/135883720-db33d450-3458-40ea-9d78-11ce459afdb8.png" width="500">
+	SMOTE 전후의 data분산 정도 차이. 황색 점이 사기 거래 데이터를 의미
 
 
 #### 4.2 Target Output
@@ -120,6 +124,7 @@ cf. 주어진 data의 feature 수는 31개였으나, 사기 거래 판별에 의
  #### 6-1. loss 함수 결정 (MSE vs Cross Entropy)
   binary classification에서 활성함수로 sigmoid 함수를 사용하는 경우, x값이 매우 크거나 매우 작을수록 sigmoid 함수의 기울기는 0으로 수렴한다. 이는 다시 말해 classification 문제에서  손실함수로 MSE를 사용하면 학습속도가 저하된다는 뜻이므로, 이번 과제에서는 손실함수로 Binary Crossentropy를 사용하였다.
 
+
  #### 6-2. 마지막 layer에서 sigmoid를 쓴 이유
   중간 발표와 달리, 마지막 layer의 activation 함수는 relu에서 sigmoid로 수정하였다.
 이 프로젝트의 주제는 정상거래와 사기거래임를 구분하는 것으로, output class가 0 또는 1이기 때문에 함수값이 0 또는 1로 수렴하는 sigmod를 선택했다. 현재 모델이 출력해야할 output이 어떤 형태인지에 따라 결정한 것이다.
@@ -132,8 +137,10 @@ activation 함수의 원래 역할은 "복잡도"이지만, 마지막 layer의 a
  #### 6-3. elu를 쓴 이유
   활성화 함수로 ELU를 사용했다. 활성화 함수의 후보들로 sigmoid, tanh, ReLU, ELU가 있었으나, ReLU와 ELU가 활성화함수의 단점을 최대한 보완한 함수들이라 최종적으로 이 둘을 비교하여 정하였다. ReLU는 sigmoid, tanh 함수와 비교하여 학습이 빠르며, gradient vanishing 문제를 해결했다는 장점이 있다. ELU는 이러한 ReLU의 장점을 포함하면서 Dying ReLU의 문제를 해결한 함수이다. 
  epoch가 늘어날수록 ReLU와 ELU의 accuracy가 비슷해지기 때문에, 두 함수의 비교 기준으로 accuracy와 loss를 사용하였다. 밑의 그래프에서 나타나듯이 ELU함수의 loss가 더 낮아 최종적으로는 ELU를 activation 함수로 사용하였다.
-
-<epoch값에 따른 ReLU와 ELU의 accuracy, loss 비교>
+ 
+	<img src="https://user-images.githubusercontent.com/52345499/135884128-68c2bf51-7d9b-4ab3-9181-d070c22ca681.png" width="500">
+	
+	<epoch값에 따른 ReLU와 ELU의 accuracy, loss 비교>
 
 
 
@@ -144,8 +151,10 @@ activation 함수의 원래 역할은 "복잡도"이지만, 마지막 layer의 a
   아래의 그래프를 보면, epoch는 100으로 고정시키고 batch size를 다르게 하면서 plotting을 해봤다. 그 결과, batch size가 100, 1000일 때와 2000일 때는 결과값이 비슷하고, 데이터 전체 크기를 batch size로 잡은 경우는 loss와 accuracy가 현저히 떨어지는 것을 볼 수 있다.
   batch size를 100으로 설정해서 실행시켜 봤을 때에는, batch size를 1000과 2000으로 설정해서 실행시켜 봤을 때보다, 실행시간이 훨씬 길었다. data 전체를 학습시키기 위해서, 밑에 있는 공식을 참고해, batch size를 2000으로 결정하였다.
 
-step수 = (전체 데이터의 개수 * epoch수) / batch 사이즈
 
+### step수 = (전체 데이터의 개수 * epoch수) / batch 사이즈
+
+<img src="https://user-images.githubusercontent.com/52345499/135884314-eabc48fc-cdbb-4b13-99df-99599eeb70a5.png" width="500">
 
 <batch size별 accuracy, loss 비교>
 
