@@ -167,7 +167,7 @@ activation 함수의 원래 역할은 "복잡도"이지만, 마지막 layer의 a
 
  #### 6-5. SMOTE 비율에 따른 정확도 plotting
 
-<img src="https://user-images.githubusercontent.com/52345499/135886350-1908d351-ad5c-40bf-91b3-f074a5a78a48.png" witdh="300">
+<img src="https://user-images.githubusercontent.com/52345499/135886350-1908d351-ad5c-40bf-91b3-f074a5a78a48.png" width="400">
 
 <smote 비율에 따른 f1 score의 값 비교>
 
