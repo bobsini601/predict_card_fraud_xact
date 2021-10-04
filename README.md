@@ -154,7 +154,7 @@ activation 함수의 원래 역할은 "복잡도"이지만, 마지막 layer의 a
 
 ### step수 = (전체 데이터의 개수 * epoch수) / batch 사이즈
 
-<img src="https://user-images.githubusercontent.com/52345499/135884314-eabc48fc-cdbb-4b13-99df-99599eeb70a5.png" width="500">
+<img src="https://user-images.githubusercontent.com/52345499/135884314-eabc48fc-cdbb-4b13-99df-99599eeb70a5.png" width="400">
 
 <batch size별 accuracy, loss 비교>
 
